@@ -1,14 +1,19 @@
 import express from 'express';
+
 import { PrismaClient } from '@prisma/client';
+
 import { validateMyTasks } from './tasks.js';
 
 const app = express();
+app.use(express.json());
+
 const client = new PrismaClient();
 
-app.use(express.json());
+
 
 
 app.get('/', (_req, res) => {
+
   res.send("<h1>HOUSTON !! Welcome to my webpage about tasks! Yikes.........</h1>");
 
 });
@@ -27,7 +32,9 @@ console.log("HOUSTON, Are we on! Are we ok!!");
 // }
 
 const port = process.env.PORT || 4100;
+
 app.listen(port, () => {
+
   console.log(`HOUSTON, oooh, yeah!!  The server is up and running on port ${port}! YIKES.........`);
 });
 
@@ -50,14 +57,16 @@ app.post('/tasks',validateMyTasks, async (req, res) => {
 
     res.status(201).json(tasks);
   } catch (e) {
-  
+
     res.status(500).json({ message: "HOUSTON! something went wrong!! noooo!!!!" })
   }
 });
 
 app.get('/tasks', async (req, res) => {
   try {
+
     const tasks = await client.tasks.findMany({
+
       where: { isCompleted: false }
     });
     res.status(200).json(tasks);
@@ -70,6 +79,7 @@ app.get('/tasks', async (req, res) => {
 app.get('/tasks/:id', async (req, res) => {
 
   try {
+
     const { id } = req.params;
     const tasks = await client.tasks.findFirst({ where: { id } });
 
@@ -108,6 +118,7 @@ app.patch('/tasks/:id',validateMyTasks, async (req, res) => {
 
 app.delete('/tasks/:id', async (req, res) => {
   try {
+    
     const { id } = req.params;
 
     await client.tasks.update({

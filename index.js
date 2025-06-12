@@ -58,7 +58,7 @@ app.post('/tasks',validateMyTasks, async (req, res) => {
 
     res.status(201).json(tasks);
   } catch (e) {
-
+     console.log(e);
     res.status(500).json({ message: "HOUSTON! something went wrong!! noooo!!!!" })
   }
 });
@@ -72,9 +72,10 @@ app.get('/tasks', async (req, res) => {
     });
     res.status(200).json(tasks);
   } catch (e) {
-  
+   console.log(e);
     res.status(500).json({ message: "HOUSTON! something went wrong!! noooo!!!!" })
-  }
+
+}
 });
 
 app.get('/tasks/:id', async (req, res) => {
@@ -90,8 +91,9 @@ app.get('/tasks/:id', async (req, res) => {
       res.status(404).json({ message: "HOUSTON! Task not foundd!! noooo!!!!" })
     }
   } catch (e) {
-   
+    console.log(e);
     res.status(500).json({ message: "HOUSTON! something went wrong!! noooo!!!!" })
+ 
   }
 });
 
@@ -112,7 +114,7 @@ app.patch('/tasks/:id',validateMyTasks, async (req, res) => {
 
     res.status(200).json(tasks);
   } catch (e) {
-    
+     console.log(e);
     res.status(500).json({ message: "HOUSTON! something went wrong!! noooo!!!!" })
   }
 });
@@ -132,7 +134,7 @@ app.delete('/tasks/:id', async (req, res) => {
     res.status(200).json({ message: "HOUSTON! the task has been deleted successfully..! YIKES.." })
 
   } catch (e) {
- 
+     console.log(e);
     res.status(500).json({ message: "HOUSTON! something went wrong!! noooo!!!!" })
   }
 });

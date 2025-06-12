@@ -12,6 +12,5 @@ model tasks{
 id String @id @default(uuid())
 title String @map ("task_title")
 description String @map ("task_description")
-isCompleted String @map ("task_isCompleted")
-
+isCompleted Boolean @map ("task_isCompleted")
 }

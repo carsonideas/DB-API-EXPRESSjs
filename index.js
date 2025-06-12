@@ -19,24 +19,6 @@ app.get('/', (_req, res) => {
 
 console.log("HOUSTON, Are we on! Are we ok!!");
 
-// let port;
-
-// if (process.env.PORT)
-// {
-//     port = process.env.PORT
-// }
-// else 
-// {
-//     port = 4100;
-// }
-
-const port = process.env.PORT || 4100;
-
-app.listen(port, () => {
-
-  console.log(`HOUSTON, oooh, yeah!!  The server is up and running on port ${port}! YIKES.........`);
-});
-
 
 
 app.post('/tasks',validateMyTasks, async (req, res) => {
@@ -81,9 +63,11 @@ app.get('/tasks', async (req, res) => {
 app.get('/tasks/:id', async (req, res) => {
 
   try {
+    
+    const id = parseInt(req.params.id);
 
-    const { id } = req.params;
-    const tasks = await client.tasks.findFirst({ where: { id } });
+    const tasks = await client.tasks.findFirst
+    ({ where: { id } });
 
     if (tasks) {
       res.status(200).json(tasks);
@@ -139,3 +123,21 @@ app.delete('/tasks/:id', async (req, res) => {
   }
 });
 
+
+// let port;
+
+// if (process.env.PORT)
+// {
+//     port = process.env.PORT
+// }
+// else 
+// {
+//     port = 4100;
+// }
+
+const port = process.env.PORT || 4100;
+
+app.listen(port, () => {
+
+  console.log(`HOUSTON, oooh, yeah!!  The server is up and running on port ${port}! YIKES.........`);
+});

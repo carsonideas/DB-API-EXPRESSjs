@@ -64,7 +64,7 @@ app.get('/tasks/:id', async (req, res) => {
 
   try {
     
-    const id = parseInt(req.params);
+    const id = parseInt(req.params.id);
 
     const tasks = await client.tasks.findFirst
     ({ where: { id } });

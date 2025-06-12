@@ -6,12 +6,12 @@ import { validateMyTasks } from './tasks.js';
 
 const app = express();
 
-const client = new PrismaClient()
-
 app.use(express.json());
 
+const client = new PrismaClient();
 
-app.get('/', (req, res) => {
+
+app.get('/', (_req, res) => {
 
   res.send("<h1>HOUSTON !! Welcome to my webpage about tasks! Yikes.........</h1>");
 
@@ -29,6 +29,14 @@ console.log("HOUSTON, Are we on! Are we ok!!");
 // {
 //     port = 4100;
 // }
+
+const port = process.env.PORT || 4100;
+
+app.listen(port, () => {
+
+  console.log(`HOUSTON, oooh, yeah!!  The server is up and running on port ${port}! YIKES.........`);
+});
+
 
 
 app.post('/tasks',validateMyTasks, async (req, res) => {

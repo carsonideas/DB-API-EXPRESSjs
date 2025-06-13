@@ -9,9 +9,15 @@ datasource db {
   url    = env("DATABASE_URL")
 }
 
+
+
 model tasks{
-id String @id @default(uuid())
-title String @map ("task_title")
-description String @map ("task_description")
-isCompleted Boolean @map ("task_isCompleted")
+
+  id          Int @id
+  title       String
+  description String
+  isCompleted Boolean
+  createdAt   DateTime @default(now()) 
+
+
 }

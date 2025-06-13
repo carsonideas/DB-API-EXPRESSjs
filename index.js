@@ -22,7 +22,7 @@ app.post("/tasks", validateMyTasks, async (req, res) => {
   try {
     const { title, description } = req.body;
 
-    const tasks = await client.tasks.create({
+    const task = await client.tasks.create({
       data: {
         title: title,
         description: description,
@@ -42,8 +42,11 @@ app.post("/tasks", validateMyTasks, async (req, res) => {
 
 app.get("/tasks", async (req, res) => {
   try {
-    const tasks = await client.tasks.findMany({
-      where: { isCompleted: false },
+    const task = await client.tasks.findMany({
+      where: {
+        isCompleted: false,
+        isDeleted: false,
+      },
     });
     res.status(200).json(tasks);
   } catch (e) {
@@ -58,7 +61,8 @@ app.get("/tasks/:id", async (req, res) => {
   try {
     const id = parseInt(req.params.id);
 
-    const tasks = await client.tasks.findFirst({ where: { id } });
+    const task = await client.tasks.findUnique({ where: { id } });
+    // const tasks = await client.tasks.findFirst({ where: { id } });
 
     if (tasks) {
       res.status(200).json(tasks);
@@ -78,11 +82,11 @@ app.patch("/tasks/:id", validateMyTasks, async (req, res) => {
     const { title, description } = req.body;
     const { id } = req.params;
 
-    const tasks = await client.tasks.update({
-      where: { id },
+    const task = await client.tasks.update({
+      where: { id: parseInt(id) },
       data: {
-        title: title && title,
-        description: description && description,
+        title,
+        description,
       },
     });
 
@@ -92,6 +96,24 @@ app.patch("/tasks/:id", validateMyTasks, async (req, res) => {
     res
       .status(500)
       .json({ message: "HOUSTON! something went wrong!! noooo!!!!" });
+  }
+});
+
+app.patch("/tasks/:id/complete", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const task = await client.tasks.update({
+      where: {
+        id: parseInt(id),
+      },
+      data: {
+        isCompleted: true,
+      },
+    });
+    res.status(200).json(task);
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({ message: "HOUSTON! Could not complete the task." });
   }
 });
 
